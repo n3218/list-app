@@ -10,6 +10,7 @@ class StatusAll extends Component {
     }
     this.onChangeHandler = this.onChangeHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
+    this.delete = this.delete.bind(this)
   }
 
   onChangeHandler(e) {
@@ -17,20 +18,23 @@ class StatusAll extends Component {
   }
 
   onSubmitHandler(e) {
-    console.log("this.state.newStatus: " + this.state.newStatus)
     e.preventDefault()
     const newStatuses = [this.state.newStatus, ...this.state.statuses]
     this.setState({ statuses: newStatuses, newStatus: "" })
   }
+  delete(index) {
+    let filteredStatuses = this.state.statuses
+    filteredStatuses.splice(index, 1)
+    this.setState({ statuses: filteredStatuses })
+  }
   render() {
-    console.log("this.state.newStatus: " + this.state.newStatus)
     return (
       <>
         <form onSubmit={this.onSubmitHandler}>
           <input type="text" placeholder="type your status here" onChange={this.onChangeHandler} value={this.state.newStatus} />
           <button type="submit">Post</button>
         </form>
-        <StatusList statuses={this.state.statuses} />
+        <StatusList statuses={this.state.statuses} delete={this.delete} />
       </>
     )
   }
